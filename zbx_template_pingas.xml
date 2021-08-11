@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2021-07-29T09:03:14Z</date>
+    <groups>
+        <group>
+            <name>Templates/ICMP</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template ICMP Ping As Active</template>
+            <name>Template ICMP Ping As Active</name>
+            <groups>
+                <group>
+                    <name>Templates/ICMP</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>ICMP</name>
+                </application>
+            </applications>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>Targets discovery</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>pingas_discovery</key>
+                    <lifetime>1h</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Ping As - {#TARGET}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>pingas[{#TARGET}, 10, 1, 2, 56]</key>
+                            <delay>30s</delay>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <description>pingas[{#TARGET}, 10, 1, 2, 56]&#13;
+{#TARGET} - IP or FQDN&#13;
+10 - count of icmp requests&#13;
+1 - interval between icmp requests&#13;
+2 - timeout for icmp response&#13;
+56 - payload size</description>
+                            <applications>
+                                <application>
+                                    <name>ICMP</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Ping As {#TARGET} - Avg RTT</name>
+                            <type>DEPENDENT</type>
+                            <key>pingas_avg_rtt[{#TARGET}]</key>
+                            <delay>0</delay>
+                            <value_type>FLOAT</value_type>
+                            <units>ms</units>
+                            <applications>
+                                <application>
+                                    <name>ICMP</name>
+                                </application>
+                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.avg_rtt</params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>pingas[{#TARGET}, 10, 1, 2, 56]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Ping As {#TARGET} - Jitter</name>
+                            <type>DEPENDENT</type>
+                            <key>pingas_jitter[{#TARGET}]</key>
+                            <delay>0</delay>
+                            <value_type>FLOAT</value_type>
+                            <units>ms</units>
+                            <applications>
+                                <application>
+                                    <name>ICMP</name>
+                                </application>
+                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.jitter</params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>pingas[{#TARGET}, 10, 1, 2, 56]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Ping As {#TARGET} - Max RTT</name>
+                            <type>DEPENDENT</type>
+                            <key>pingas_max_rtt[{#TARGET}]</key>
+                            <delay>0</delay>
+                            <value_type>FLOAT</value_type>
+                            <units>ms</units>
+                            <applications>
+                                <application>
+                                    <name>ICMP</name>
+                                </application>
+                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.max_rtt</params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>pingas[{#TARGET}, 10, 1, 2, 56]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Ping As {#TARGET} - Min RTT</name>
+                            <type>DEPENDENT</type>
+                            <key>pingas_min_rtt[{#TARGET}]</key>
+                            <delay>0</delay>
+                            <value_type>FLOAT</value_type>
+                            <units>ms</units>
+                            <applications>
+                                <application>
+                                    <name>ICMP</name>
+                                </application>
+                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.min_rtt</params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>pingas[{#TARGET}, 10, 1, 2, 56]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Ping As {#TARGET} - Packet Loss</name>
+                            <type>DEPENDENT</type>
+                            <key>pingas_packet_loss[{#TARGET}]</key>
+                            <delay>0</delay>
+                            <units>%</units>
+                            <applications>
+                                <application>
+                                    <name>ICMP</name>
+                                </application>
+                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.packet_loss</params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>pingas[{#TARGET}, 10, 1, 2, 56]</key>
+                            </master_item>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>

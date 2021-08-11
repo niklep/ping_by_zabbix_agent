@@ -1,0 +1,66 @@
+Набор инструментов для мониоринга состояния каналов связи через icmp с помощью zabbix agent
+
+Принцип действия:
+- на компьютере с Windows запускается Zabbix agent
+- через кастомный userparameter производится Discovery целей, которые будут пинговаться
+  скрипт discovery - scripts/pingas_discovery.py
+  файл с целями - zabbix_agentd.conf.d/pingas_targets.txt
+- через кастомный userparameter пингуются адреса, обнаруженные ранее
+  скрипт - scripts/pingas.py
+- Zabbix Agent отправляет данные в Zabbix Server. Отправляет активно, т.е. сам инициирует соединения.
+
+
+
+Мануал по установке:
+
+--------------------------------------------------
+------------ Установка Python --------------------
+--------------------------------------------------
+Предпочтительная версия Python - 3.8
+Только в случае, если 3.8 не устанавливается (такое бывает на сильно необновленных Windows 7), то ставить 3.7
+
+
+Запустить нужный инсталятор для 64-битной или 32-битной ОС:
+distr\x64\python-3.8.10-amd64.exe
+distr\x86\python-3.8.10.exe
+
+1. На первом шаге добавить чекбокс
+Add Python 3.8 to PATH
+https://i.imgur.com/CyLDEeA.png
+2. Нажать Customize installation
+3. Убрать ВСЕ чекбоксы, КРОМЕ:
+- pip
+- for all users (requires elevation)
+https://i.imgur.com/KglSoHo.png
+3. Далее
+4. Включить чекбокс "Install for all users"
+https://i.imgur.com/5iaU1q2.png
+
+
+--------------------------------------------------
+------------ Установка Zabbix Agent -------------- 
+--------------------------------------------------
+
+1. Запустить нужный инсталлятор для 64-битной или 32-битной ОС:
+distr\x64\zabbix_agent-5.0.14-windows-amd64-openssl.msi
+distr\x86\zabbix_agent-5.0.14-windows-i386-openssl.msi
+
+2. Указать в ходе установки:
+- Host name - как в Zabbix Web, т.к. тип проверки - активный
+- Zabbix server IP/DNS
+- Server or Proxy for active checks
+
+https://i.imgur.com/2TEEL3u.png
+
+--------------------------------------------------
+----- Сконфигурировать Zabbix Agent и Python -----
+--------------------------------------------------
+
+- запустить cmd от имени администратора
+- перейти в директорию, куда был распакован архив. Например,
+# cd "C:\Users\lepehin\Downloads\zabbix_for_win_stoybishe"
+- Запустить скрипт
+# config_x64.bat
+(или config_x86.bat для 32-битной ОС)
+
+- перезагрузить службу Zabbix Agent
